@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.QnaMapper">
+	<select id="listAllQna" parameterType="map" resultType="qnaDto">
+		select id,title,content,writer,completed, isprivate, writetime, answer
+		from qna
+		<if test="key != null and key != ''">
+			where ${key} like concat('%', #{word}, '%')
+		</if>
+		order by writetime desc
+		
+	</select>
+
+	<select id="listQna" parameterType="pageResultDto" resultType="qnaDto">
+		select id,title,content,writer,completed, isprivate, writetime, answer
+		from qna
+		<if test="key != null and key != ''">
+			where ${key} like concat('%', #{word}, '%')
+		</if>
+		order by no asc
+		limit #{begin}, #{listSize}
+	</select>
+	
+	<insert id="registQna" parameterType="qnaDto">
+		insert into qna (title,content,writer,isprivate)
+		values (#{title},#{content},#{writer},#{isprivate})
+	</insert>
+	
+	<delete id="deleteQna" parameterType="int">
+		delete from qna
+		where id = #{id}
+	</delete>
+
+	<update id="modifyQna" parameterType="qnaDto">
+		update qna 
+		set	title = #{title}, isprivate = #{isprivate}, content = #{content}
+		where id = #{id}
+	</update>
+	
+	<select id="getQna" resultType="qnaDto" parameterType="int">
+		select id,title,content,writer,completed,isprivate,writetime, answer
+		from qna
+		where id = #{id}
+	</select>
+	
+	<update id="registAnswer" parameterType="qnaDto">
+		update qna 
+		set	completed = #{completed}, answer = #{answer}
+		where id = #{id}
+	</update>
+</mapper>

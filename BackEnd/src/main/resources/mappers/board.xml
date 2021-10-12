@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
+
+	<insert id="registBoard" parameterType="boardDto">
+		insert into board (title, writer, content)
+		values (#{title},#{writer},#{content})
+	</insert>
+
+	
+	<select id="listBoard" parameterType="PageResultDto" resultType="boardDto">
+		select id, title, writer, content, boarddate
+		from board
+		<if test="key != null and key != ''">
+			where ${key} like concat('%', #{word}, '%')
+		</if>
+		order by id asc
+		limit #{begin}, #{listSize}
+	</select>
+	
+	<select id="listAllBoard" parameterType="map" resultType="boardDto">
+		select id, title, writer, content, boarddate
+		from board
+		<if test="key != null and key != ''">
+			where ${key} like concat('%', #{word}, '%')
+		</if>
+			order by boarddate desc
+	</select>
+	
+	
+	<select id="getBoard" parameterType="int" resultType="boardDto">
+		select 	id, title, writer, content, boarddate
+		from 	board
+		where	id = #{id} 
+	</select>
+	
+	<update id="modifyBoard" parameterType="boardDto">
+		update	board
+		set		title = #{title}, content = #{content}
+		where 	id = #{id}	 
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from board
+		where		id = #{id}
+	</delete>
+	
+	<select id="selectBoardCount" parameterType="map" resultType="int">
+		select  count(*)
+		from	board
+		<if test="key != null and key != ''">
+			where ${key} = #{word}
+		</if>
+	</select>
+
+</mapper>

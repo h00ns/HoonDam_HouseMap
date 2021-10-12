@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.MemberMapper">
+
+	<select id="login" parameterType="memberDto" resultType="memberDto">
+		select membername, memberid, memberpwd, memberemail, membertell
+		from member
+		where memberid = #{memberid} and memberpwd = #{memberpwd}
+	</select>
+	
+	<insert id="signUp" parameterType="memberDto">
+		insert into member(membername, memberid, memberpwd, memberemail, membertell)
+		values (#{membername}, #{memberid}, #{memberpwd}, #{memberemail}, #{membertell})
+	</insert>
+
+	<select id="select" parameterType="string" resultType="memberDto">
+		select membername, memberid, memberpwd, memberemail, membertell
+		from member
+		where memberid = #{id}
+	</select>
+	
+	<delete id="delete" parameterType="string">
+		delete from member
+		where memberid = #{memberid}
+	</delete>
+	
+	<update id="update" parameterType="memberDto">
+		update member
+		set membername = #{membername}, memberpwd = #{memberpwd}, memberemail = #{memberemail}, membertell = #{membertell}
+		where memberid = #{memberid}
+	</update>
+	
+	<select id="selectAll" resultType="memberDto">
+		select membername, memberid, memberpwd, memberemail, membertell
+		from member
+	</select>
+</mapper>

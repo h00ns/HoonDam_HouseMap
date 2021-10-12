@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.HouseDealMapper">
+	<!-- 
+	<select id="listHouseDeal" parameterType="PageResultDto" resultType="HouseDealDto">
+		select no, dong, aptname, code, dealamount, buildyear, dealyear, dealmonth, dealday, area, floor, jibun, type, rentmoney
+		from housedeal
+		<if test="key != null and key != ''">
+			where ${key} like concat('%', #{word}, '%')
+		</if>
+		order by no asc
+	</select>
+	 -->
+	 	<select id="listHouseDeal" parameterType="map" resultType="HouseDealDto">
+<!-- 	 	 		select hd.no, hd.dong, hd.aptname, hd.code, hd.dealamount, hd.buildyear, hd.dealyear, hd.dealmonth, hd.dealday, hd.area, hd.floor, hd.jibun, hd.type, hd.rentmoney, hi.lat, hi.lng
+ -->	 
+			select hd.no, hd.dong, hd.aptname, hd.code, hd.dealamount, hd.buildyear, hd.dealyear, hd.dealmonth, hd.dealday, hd.area, hd.floor, hd.jibun, hd.type, hd.rentmoney, hi.lat, hi.lng
+			from housedeal hd
+			join happyhouse.houseinfo hi on hd.aptname = hi.aptname and hd.dong = hi.dong  and hd.jibun = hi.jibun and hd.buildYear = hi.buildYear
+			<![CDATA[
+			where ((hi.lat between #{swMa} and #{neMa})and (hi.lng between #{swLa} and #{neLa})) and (cast(hd.dealamount as unsigned) < cast(#{dealamount} as unsigned)) and (area < cast(#{area} as unsigned))
+			]]>
+			group by hd.aptname
+			<if test="key != null and key != ''">
+			and (${key} like concat('%', #{word}, '%'))
+			</if>
+	 	</select>
+	 
+	<select id="getHouseDeal" parameterType="int" resultType="HouseDealDto">
+		select no, dong, aptname, code, dealamount, buildyear, dealyear, dealmonth, dealday, area, floor, jibun, type, rentmoney
+		from housedeal
+		where no = #{no}
+	</select>
+	
+	<select id="selectHouseCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM housedeal
+		<if test="key != null and key != ''">
+			where ${key} = #{word}
+		</if>
+	</select>
+	
+	<select id="listFavor" parameterType="string" resultType="string">
+		select dong
+		from favor
+		where memberid = #{memberId}
+		order by dong asc
+	</select>
+	
+	
+	<delete id="deleteFavor" parameterType="map">
+		delete
+		from favor
+		where memberid = #{memberId}
+		and
+		dong = #{dong}
+	</delete>
+	
+	<insert id="insertFavor" parameterType="map">
+		insert
+		into favor 
+		(memberid, dong)
+		values(#{memberId}, #{dong})
+	</insert>
+	
+	<select id="selectFavorCount" parameterType="string" resultType="int">
+		SELECT count(*)
+		FROM favor
+		where memberId = #{memberId}
+	</select>
+	
+	<select id="select" parameterType="int" resultType="houseDealDto">
+	    select hd.no, hd.dong, hd.aptname, hd.code, hd.dealamount, hd.buildyear, hd.dealyear, hd.dealmonth, hd.dealday, hd.area, hd.floor, hd.jibun, hd.type, hd.rentmoney, hi.lat, hi.lng
+	    from housedeal hd
+	        join houseinfo hi on hd.aptname = hi.aptname and hd.dong = hi.dong
+	    where hd.no = #{no}
+	</select>
+	
+	<select id="selectAll" resultType="houseDealDto" parameterType="string">
+		select hd.no, hd.dong, hd.aptname, hd.code, hd.dealamount, hd.buildyear, hd.dealyear, hd.dealmonth, hd.dealday, hd.area, hd.floor, hd.jibun, hd.type, hd.rentmoney, hi.lat, hi.lng
+	    from housedeal hd
+	        join houseinfo hi on hd.aptname = hi.aptname and hd.dong = hi.dong
+	    where hd.dong like concat('%', #{dong}, '%')
+	</select>
+	
+	<insert id="zzim" parameterType="map">
+		insert into favor (memberid, no)
+		values (#{memberid}, #{no})
+	</insert>
+	
+	<delete id="zzimNo" parameterType="map">
+		delete from favor
+		where memberid = #{memberid} and no = #{no}
+	</delete>
+	
+	<select id="zzimList" parameterType="string" resultType="houseDealDto">
+		select hd.no, hd.dong, hd.aptname, hd.code, hd.dealamount, hd.buildyear, hd.dealyear, hd.dealmonth, hd.dealday, hd.area, hd.floor, hd.jibun, hd.type, hd.rentmoney, hi.lat, hi.lng
+		from favor fv
+		     join houseinfo hi on fv.no = hi.no
+		     join housedeal hd on fv.no = hd.no
+		where fv.memberid = #{memberid}
+	</select>
+	
+	<select id="count" parameterType="int" resultType="int">
+		select count(*)
+		from favor
+		where no = #{no}
+	</select>
+	
+	<select id="selectComment" parameterType="string" resultType="CommentDto">
+    select * from comment 
+    where aptno = #{aptno}
+	</select>
+	
+	<insert id="insertComment" parameterType="CommentDto" >
+	    insert into comment (writer, aptno, content) values (#{writer}, #{aptno}, #{content});
+	</insert>
+	
+	<select id="top" resultType="houseDealDto">
+		select count(*) as count, hd.no, hd.dong, hd.aptname, hd.code, hd.dealamount, hd.buildyear, hd.dealyear, hd.dealmonth, hd.dealday, hd.area, hd.floor, hd.jibun, hd.type, hd.rentmoney, hi.lat, hi.lng
+		from favor fv
+		     join houseinfo hi on fv.no = hi.no
+		     join housedeal hd on fv.no = hd.no
+             group by no
+             order by count(*) desc
+             limit 5;
+	</select>
+	
+</mapper>

@@ -43,6 +43,8 @@
 <br>
 
 # 💻 구현
+### [시연 영상 링크]
+https://www.youtube.com/watch?v=vjRSaqg71yc
 
 ### [메인화면]
 ![image](https://user-images.githubusercontent.com/78480984/136930028-a8d91d9b-f296-4762-bdc5-4b40b66c8631.png)

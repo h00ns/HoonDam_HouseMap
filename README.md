@@ -91,7 +91,8 @@
 ![image](https://user-images.githubusercontent.com/78480984/136931194-f196a3c4-74de-4b3e-8269-4221d2e60813.png)
 ![image](https://user-images.githubusercontent.com/78480984/136931224-a0c89323-6616-45b9-a564-31274dca8052.png)
 
-> 공지사항, Q&A 등록, 열람, 수정, 삭제 CRUD. 
+> 공지사항, Q&A 등록, 열람, 수정, 삭제 CRUD. <br>
+> 게시글 클릭시 modal창을 이용하여 modal창을 이용하여 편리성 증가시킴.
 
 <br>
 

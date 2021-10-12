@@ -1,4 +1,4 @@
-![HoonDam_Logo](https://user-images.githubusercontent.com/78480984/136928200-d37d0d1b-7b8c-4cb1-9d4d-a0df926dfcd5.png)
+![HoonDam_Logo](https://user-images.githubusercontent.com/78480984/136932773-2d6bed79-4ea0-4e6e-91d9-1bde94137a7b.png)
 
 # HoonDam | HappyHouse 🏠
 
